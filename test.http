@@ -1,0 +1,121 @@
+@base_url=http://127.0.0.1:8000/api
+@access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJxcXEiLCJleHAiOjE3NDMxODMzOTJ9.ghYGm26h3DzyfxX5QRWRwP4Vw7UeJ7cPO_YJw4f6J5s
+@refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJxcXEiLCJleHAiOjE3NDQ0NzU3OTJ9.vxBBYOxbj6iFwB0SlGpvKeLbdPYCn18p9r94tsfDuBQ
+@uuid=337414f0-0be7-11f0-9d20-6f8382a1da8c
+### 管理员注册
+POST {{base_url}}/admin/register
+Content-Type: application/json
+
+{
+    "username": "qqq",
+    "password": "qqq"
+}
+
+
+### 管理员登录
+POST {{base_url}}/admin/login
+Content-Type: application/x-www-form-urlencoded
+
+username=qqq
+&password=qqq
+
+
+### 删除管理员账号
+DELETE {{base_url}}/admin/delete
+Authorization: Bearer {{access_token}}
+
+
+### 刷新token
+GET {{base_url}}/admin/refresh-token
+Authorization: Bearer {{refresh_token}}
+
+
+### 用户修改团支部信息
+POST {{base_url}}/user
+Content-Type: application/json
+
+{
+    "name": "张三",
+    "student_id": "202500996677",
+    "party_branch": "控制科学与工程学院党支部"
+}
+
+
+
+### 管理员发布一期答题项目
+POST {{base_url}}/admin/project
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "name": "2026年第6期党建知识问答",
+    "starttime": "2026-06-01 09:00:00",
+    "deadline": "2026-06-30 18:00:00",
+    "questions": [
+        {
+        "type": 0,
+        "text": "中国共产党在哪一年成立？",
+        "A": "1920",
+        "B": "1921",
+        "C": "1922",
+        "D": "1923",
+        "answer": "B"
+        },
+        {
+        "type": 1,
+        "text": "党支部的主要职责是什么？",
+        "A": "组织党员学习党史",
+        "B": "组织党员学习党的理论",
+        "C": "组织党员学习党的路线方针政策",
+        "D": "组织党员学习党的规章制度",
+        "answer": "ABCD"
+        }
+    ]
+}
+
+### 管理员获取项目信息
+GET {{base_url}}/admin/project/{{uuid}}
+Authorization: Bearer {{access_token}}
+
+
+### 管理员更新项目信息
+PUT {{base_url}}/admin/project/{{uuid}}
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "name": "2026年第6期党建知识问答",
+    "starttime": "2026-06-01 10:00:00",
+    "deadline": "2026-06-30 20:00:00",
+    "questions": [
+        {
+        "type": 0,
+        "text": "中国共产党在哪一年成立？",
+        "A": "1920",
+        "B": "1921",
+        "C": "1922",
+        "D": "1923",
+        "answer": "B"
+        },
+        {
+        "type": 1,
+        "text": "党支部的主要职责是什么？",
+        "A": "组织党员学习党史",
+        "B": "组织党员学习党的理论",
+        "C": "组织党员学习党的路线方针政策",
+        "D": "组织党员学习党的规章制度",
+        "answer": "ABCD"
+        }
+    ]
+}
+
+
+### 管理员删除项目信息
+DELETE {{base_url}}/admin/project/{{uuid}}
+
+Authorization: Bearer {{access_token}}
+
+
+### 用户获取项目详情
+GET {{base_url}}/user/project/{{uuid}}
+?student_id=202500996677
