@@ -19,6 +19,7 @@ class Admin(SQLModel, table=True):
 class Project(SQLModel, table=True):
     uuid: str = Field(primary_key=True)
     name: str
+    issue_num: int = Field(unique=True)
     starttime: datetime
     deadline: datetime
     status: int = Field(default=0)  # 0为未开始，1为进行中，2为已结束
@@ -51,4 +52,4 @@ class Record(SQLModel, table=True):
     answer: str
     correct_num: int
     time_used_seconds: float
-    
+    valid_flag: bool = Field(default=True)  # 0为超期无效作答，1为期内有效作答
