@@ -7,14 +7,14 @@ class AdminRegisterRequest(BaseModel):
     username: str = Field(description="用户名，全局唯一", 
                         examples=["qqq"])
     password: str = Field(description="密码", 
-                        examples=["123456"])
+                        examples=["qqq"])
 
 
 class AdminLoginRequest(BaseModel):
     username: str = Field(description="用户名，全局唯一", 
                         examples=["qqq"])
     password: str = Field(description="密码", 
-                        examples=["123456"])
+                        examples=["qqq"])
 
 
 class UserChangePartyBranchRequest(BaseModel):
