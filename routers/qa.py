@@ -4,6 +4,7 @@ import utils.schemas as schemas
 from sql.database import get_session
 from utils.authorization import *
 from uuid import uuid1
+import utils.response_format as rf
 
 
 router = APIRouter()
@@ -150,7 +151,7 @@ session: Session=Depends(get_session)):
     project_data["deadline"] = project_data["deadline"].strftime("%Y-%m-%d %H:%M:%S")
     project_data["questions"] = [
         question.model_dump(exclude={"project_uuid"}) for question in project.questions
-        ]
+    ]
     #* 先判断用户是否设置过党支部信息
     student = session.get(models.User, student_id)
     if not student:
