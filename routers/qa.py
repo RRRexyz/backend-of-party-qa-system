@@ -195,9 +195,9 @@ session: Session=Depends(get_session)):
     如果用户有答题记录，还会返回其作答情况；
     """
     project = session.get(models.Project, project_uuid)
-    check_project_status(project, project.starttime, project.deadline, project.status, session)
     if not project:
         return rf.res_404(message="项目不存在")
+    check_project_status(project, project.starttime, project.deadline, project.status, session)
     project_data = project.model_dump()
     project_data["starttime"] = project_data["starttime"].strftime("%Y-%m-%d %H:%M:%S")
     project_data["deadline"] = project_data["deadline"].strftime("%Y-%m-%d %H:%M:%S")

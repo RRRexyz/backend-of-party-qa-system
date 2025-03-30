@@ -1,3 +1,4 @@
+from unittest.mock import Base
 from pydantic import BaseModel, Field
 from uuid import UUID
 from datetime import datetime
@@ -96,7 +97,7 @@ class CommitAnswer(BaseModel):
                     examples=["B"])
     
 
-class CommitAnswerRequest(CommitAnswer):
+class CommitAnswerRequest(BaseModel):
     student_id: str = Field(description="学号", examples=["202500996677"])
     project_uuid: str = Field(description="项目ID", examples=["4ddc1160-0bcb-11f0-a3a7-a340c0b22593"])
     time_used_seconds: str = Field(description="用时（秒）", examples=["111.22"])

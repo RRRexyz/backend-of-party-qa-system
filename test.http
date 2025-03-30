@@ -133,8 +133,6 @@ POST {{base_url}}/user/project
 Content-Type: application/json
 
 {
-    "question_id": 1,
-    "user_answer": "B",
     "student_id": "202500993344",
     "project_uuid": "b53b6402-0cb1-11f0-beab-38fc98613d7e",
     "time_used_seconds": "100.06",
