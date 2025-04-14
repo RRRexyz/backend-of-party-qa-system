@@ -35,8 +35,8 @@ POST {{base_url}}/user
 Content-Type: application/json
 
 {
-    "name": "李四",
-    "student_id": "202500993344",
+    "name": "张三",
+    "student_id": "202500996677",
     "party_branch": "控制科学与工程学院党支部"
 }
 
@@ -133,10 +133,10 @@ POST {{base_url}}/user/project
 Content-Type: application/json
 
 {
-    "student_id": "202500993344",
-    "project_uuid": "b53b6402-0cb1-11f0-beab-38fc98613d7e",
-    "time_used_seconds": "100.06",
-    "correct_num": 10,
+    "student_id": "202500996677",
+    "project_uuid": "b31d745e-0cb1-11f0-ac37-38fc98613d7e",
+    "time_used_seconds": "99.06",
+    "correct_num": 12,
     "user_answers": [
         {
         "question_id": 1,
@@ -161,7 +161,9 @@ GET {{base_url}}/user/projects
 
 ### 获取当期问答项目的排行榜
 GET {{base_url}}/ranking
+?student_id=202500996677
 
 
 ### 获取往期累计排行榜
 GET {{base_url}}/ranking/all
+?student_id=202500993344

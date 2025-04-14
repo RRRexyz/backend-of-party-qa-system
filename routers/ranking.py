@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get("/ranking",
             summary="获取当期排行榜")
-async def get_ranking(session: Session=Depends(get_session)):
+async def get_ranking(student_id: str, session: Session=Depends(get_session)):
     statement = select(func.max(models.Project.issue_num))
     max_issue_num = session.exec(statement).first()
     if not max_issue_num:
@@ -26,23 +26,29 @@ async def get_ranking(session: Session=Depends(get_session)):
                 "name": record.student.name,
                 "party_branch": record.student.party_branch,
                 "correct_num": record.correct_num,
-                "time_used_seconds": record.time_used_seconds
+                "time_used_seconds": record.time_used_seconds,
             }
             ranking.append(record_data)
     ranking.sort(key=lambda x: (-x["correct_num"], x["time_used_seconds"]))
+    self_ranking = {}
+    for (i, student) in enumerate(ranking):
+        student["rank"] = i + 1
+        if student["student_id"] == student_id:
+            self_ranking = student
     now_ranking_data = {
         "project_uuid": project.uuid,
         "project_name": project.name,
         "creater_name": project.creater.username,
         "issue_num": project.issue_num,
-        "ranking": ranking
+        "self_ranking": self_ranking,
+        "ranking": ranking[:30]
     }
     return rf.res_200(message="获取当期排行榜成功", data=now_ranking_data)
 
 
 @router.get("/ranking/all",
             summary="获取往期累计排行榜")
-async def get_all_ranking(session: Session=Depends(get_session)):
+async def get_all_ranking(student_id: str, session: Session=Depends(get_session)):
     # 获取所有用户
     users = session.exec(select(models.User)).all()
     ranking = []
@@ -68,4 +74,13 @@ async def get_all_ranking(session: Session=Depends(get_session)):
         }
         ranking.append(user_data)
     ranking.sort(key=lambda x: (-x["total_correct_num"], x["average_time_used_seconds"]))
-    return rf.res_200(message="获取往期累计排行榜成功", data=ranking)
+    self_ranking = {}
+    for (i, student) in enumerate(ranking):
+        student["rank"] = i + 1
+        if student["student_id"] == student_id:
+            self_ranking = student
+    all_ranking_data = {
+        "self_ranking": self_ranking,
+        "ranking": ranking[:30]
+    }
+    return rf.res_200(message="获取往期累计排行榜成功", data=all_ranking_data)
