@@ -124,7 +124,7 @@ Authorization: Bearer {{access_token}}
 
 
 ### 用户获取项目详情
-GET {{base_url}}/user/project/{{uuid}}
+GET {{base_url}}/user/project/latest
 ?student_id=202500996677
 
 

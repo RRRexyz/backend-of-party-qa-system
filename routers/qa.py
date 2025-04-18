@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from idna import valid_contextj
-from sqlmodel import Session, select
+# from idna import valid_contextj
+from sqlmodel import Session, select, func
 import utils.schemas as schemas
 from sql.database import get_session
 from utils.authorization import *
@@ -194,9 +194,19 @@ session: Session=Depends(get_session)):
 
     如果用户有答题记录，还会返回其作答情况；
     """
-    project = session.get(models.Project, project_uuid)
-    if not project:
-        return rf.res_404(message="项目不存在")
+    #* 如果project_uuid为latest，则返回最新发布的项目
+    if project_uuid == "latest":
+        statement = select(func.max(models.Project.issue_num))
+        max_issue_num = session.exec(statement).first()
+        if not max_issue_num:
+            return rf.res_404(message="不存在任何项目")
+        project = session.exec(select(models.Project).filter_by(issue_num=max_issue_num)).first()
+    
+    #* 正常情况
+    else:
+        project = session.get(models.Project, project_uuid)
+        if not project:
+            return rf.res_404(message="项目不存在")
     check_project_status(project, project.starttime, project.deadline, project.status, session)
     project_data = project.model_dump()
     project_data["starttime"] = project_data["starttime"].strftime("%Y-%m-%d %H:%M:%S")
