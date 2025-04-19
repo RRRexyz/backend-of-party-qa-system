@@ -207,6 +207,7 @@ session: Session=Depends(get_session)):
         project = session.get(models.Project, project_uuid)
         if not project:
             return rf.res_404(message="项目不存在")
+    project_uuid = project.uuid
     check_project_status(project, project.starttime, project.deadline, project.status, session)
     project_data = project.model_dump()
     project_data["starttime"] = project_data["starttime"].strftime("%Y-%m-%d %H:%M:%S")
