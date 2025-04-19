@@ -125,3 +125,16 @@ session: Session=Depends(get_session)):
         return rf.res_200(message="党支部信息更新成功",
             data=user_in_db.model_dump())
 
+
+@router.get("/user/{student_id}",
+            summary="获取用户党支部信息")
+async def get_user(student_id: str, 
+session: Session=Depends(get_session)):
+    student = session.get(models.User, student_id)
+    if not student:
+        return rf.res_404(message="请先设置党支部信息")
+    return rf.res_200(message="获取党支部信息成功",
+        data={
+            "party_branch": student.party_branch
+        }
+    )

@@ -293,7 +293,7 @@ async def user_get_all_projects(session: Session=Depends(get_session)):
     return rf.res_200(message="项目列表获取成功", data=projects_data)
 
 
-@router.get("/user/projects",
+@router.get("/user/projects/participate",
             summary="用户获取参与过的所有项目预览")
 async def user_get_projects(student_id: str, 
 session: Session=Depends(get_session)):
