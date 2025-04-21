@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from sql.database import create_db_and_tables
-from routers import user, qa, ranking
+from routers import user, qa, ranking, sdulogin
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -27,7 +27,7 @@ app = FastAPI(title="党建问答系统", version="0.1.0",
 app.include_router(user.router, tags=["用户模块"], prefix="/api")
 app.include_router(qa.router, tags=["问答模块"], prefix="/api")
 app.include_router(ranking.router, tags=["排位模块"], prefix="/api")
-
+app.include_router(sdulogin.router, tags=["用户模块"], prefix="/api")
 
 
 app.add_middleware(
